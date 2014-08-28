@@ -2,31 +2,76 @@
  * Created by Ramy on 8/27/2014.
  */
 (function(){
-	var fn = {
-		html:function(shtml){
-			this.innerHTML = shtml;
-			return this;
-		},
-        text:function(txt){
-            this.innerText = txt;
+    var $ = function(q){
+        var ret = [];
+        if(typeof q === "string"){
+            var tagMatch = /\<([A-z]+).*\>/;
+            var tags = tagMatch.exec(q);
+            if(tags){
+                ret.push(document.createElement(tags[1]));
+            }else {
+                var nodes = document.querySelectorAll(q);
+                for(var i=0;i <nodes.length; i++){
+                    ret.push(nodes[i]);
+                }
+            }
+        }else{
+            ret.push(q);
+        }
+        return addFn(ret);
+    };
+
+    var fn = {
+        dom:function(){
+            return this[0];
+        },
+        html:function(shtml){
+            if(shtml===undefined){
+                var ret = "";
+                this.forEach(function(el){
+                    ret += el.innerHTML;
+                });
+                return ret;
+            }
+            this.forEach(function(el){
+                el.innerHTML = shtml;
+            })
             return this;
         },
-		ready:function(cb){
-            if(this == document){
-                if(document.readyState === "complete"){
-                    setTimeout(cb,1);
-                    return this;
-                }else{
-                    $(window).ready(cb);
-                }
-                return this;
+        text:function(txt){
+            if(txt===undefined){
+                var ret = "";
+                this.forEach(function(el){
+                    ret += el.innerText;
+                });
+                return ret;
             }
-			return this.listen("load",cb);
-		},
-		listen:function(id, cb){
-			this.addEventListener(id, cb);
-			return this;
-		},
+            this.forEach(function(el){
+                el.innerText = txt;
+            });
+            return this;
+        },
+        ready:function(cb){
+            this.forEach(function(el){
+                if(el == document){
+                    if(document.readyState === "complete"){
+                        setTimeout(cb,1);
+                        return this;
+                    }else{
+                        $(window).ready(cb);
+                    }
+                }else{
+                    $(el).listen("load");
+                }
+            });
+            return this;
+        },
+        listen:function(id, cb){
+            this.forEach(function(el){
+                el.addEventListener(id, cb);
+            });
+            return this;
+        },
         click:function(cb){
             return this.listen("click", cb);
         },
@@ -37,56 +82,53 @@
             return this.css("display","none");
         },
         css:function(s,val){
-            this.style[s]=val;
+            this.forEach(function(el){
+                el.style[s]=val;
+            });
             return this;
         },
-        prepend:function(el){
-            this.insertBefore(el, this.firstChild);
+        prepend:function(e){
+            if(e.dom === fn.dom){
+                e = e.dom();
+            }
+            this.forEach(function(el){
+                el.insertBefore(e, el.firstChild);
+            });
+            return this;
         },
         attr:function(n,val){
-            if(val==="" || val===null || val===undefined){
-                this.removeAttribute(n);
-            }else {
-                this.setAttribute(n, val);
-            }
+            this.forEach(function(el){
+                if(val==="" || val===null || val===undefined){
+                    el.removeAttribute(n);
+                }else {
+                    el.setAttribute(n, val);
+                }
+            });
+            return this;
         },
+
         removeAttr:function(n){
             return this.attr(n);
         }
-	};
-	var utils = {
-		isArray:function(o){
-			return Array.isArray(0);
-		}
-	};
-	var addFn = function(el){
+    };
+    var utils = {
+        isArray:function(o){
+            return Array.isArray(o);
+        }
+    };
+    var addFn = function(el){
         for(var f in fn){
             el[f] = fn[f];
         }
         return el;
     };
-	var $ = function(q){
-        var ret = q;
-        if(typeof q === "string"){
-            var tagMatch = /\<([A-z]+).*\>/;
-            var tags = tagMatch.exec(q);
-            if(tags){
-                ret = document.createElement(tags[1]);
-            }else {
-                ret = document.querySelector(q);
-            }
-        }
-        return addFn(ret);
-	};
-	
-	$.prototype = utils;
-	
-	if(typeof define === "function" && define.amd){
-		define(function(){
-			return $;
-		});
-	}else{
+
+    if(typeof define === "function" && define.amd){
+        define(function(){
+            return $;
+        });
+    }else{
         window.$ = $;
     }
-	
+
 })();
