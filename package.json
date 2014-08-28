@@ -1,0 +1,22 @@
+{
+  "name": "js-query",
+  "version": "0.0.0",
+  "description": "Slim version of jQuery",
+  "main": "js-query.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rdesoky/js-query.git"
+  },
+  "keywords": [
+    "jquery"
+  ],
+  "author": "Ramy Eldesoky",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rdesoky/js-query/issues"
+  },
+  "homepage": "https://github.com/rdesoky/js-query"
+}
