@@ -13,7 +13,13 @@
         },
 		ready:function(cb){
             if(this == document){
-                return $(window).ready(cb);
+                if(document.readyState === "complete"){
+                    setTimeout(cb,1);
+                    return this;
+                }else{
+                    $(window).ready(cb);
+                }
+                return this;
             }
 			return this.listen("load",cb);
 		},
@@ -25,10 +31,10 @@
             return this.listen("click", cb);
         },
         show:function(){
-            return this.css("display","none");
+            return this.css("display","");
         },
         hide:function(){
-            return this.css("display","");
+            return this.css("display","none");
         },
         css:function(s,val){
             this.style[s]=val;
@@ -36,6 +42,16 @@
         },
         prepend:function(el){
             this.insertBefore(el, this.firstChild);
+        },
+        attr:function(n,val){
+            if(val==="" || val===null || val===undefined){
+                this.removeAttribute(n);
+            }else {
+                this.setAttribute(n, val);
+            }
+        },
+        removeAttr:function(n){
+            return this.attr(n);
         }
 	};
 	var utils = {
@@ -43,23 +59,24 @@
 			return Array.isArray(0);
 		}
 	};
-	
+	var addFn = function(el){
+        for(var f in fn){
+            el[f] = fn[f];
+        }
+        return el;
+    };
 	var $ = function(q){
         var ret = q;
         if(typeof q === "string"){
             var tagMatch = /\<([A-z]+).*\>/;
-            var tags = tagMatch.exec(q)
+            var tags = tagMatch.exec(q);
             if(tags){
                 ret = document.createElement(tags[1]);
             }else {
                 ret = document.querySelector(q);
             }
         }
-        for(var f in fn){
-            ret[f] = fn[f];
-        }
-
-        return  ret;
+        return addFn(ret);
 	};
 	
 	$.prototype = utils;
