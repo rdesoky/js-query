@@ -83,7 +83,13 @@
         },
         css:function(s,val){
             this.forEach(function(el){
-                el.style[s]=val;
+                if(utils.isString(s)) {
+                    el.style[s] = val || "";
+                }else{
+                    for(var k in s){
+                        el.style[k] = s[k];
+                    }
+                }
             });
             return this;
         },
@@ -112,6 +118,9 @@
         }
     };
     var utils = {
+        isString:function(o){
+            return typeof o == "string";
+        },
         isArray:function(o){
             return Array.isArray(o);
         }
