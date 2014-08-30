@@ -47,7 +47,7 @@
                 return ret;
             }
             this.forEach(function(el){
-                el.innerText = txt;
+                el.innerHTML = txt;
             });
             return this;
         },
@@ -112,9 +112,28 @@
             });
             return this;
         },
-
         removeAttr:function(n){
             return this.attr(n);
+        },
+        addClass:function(c){
+            this.forEach(function(el){
+                el.className = el.className.trim().length ? utils.addArrayItem( el.className.trim().split(" "), c).join(" ") : c;
+            });
+            return this;
+        },
+        removeClass:function(c){
+            this.forEach(function(el){
+                if(!el.className.trim().length){
+                    return;
+                }
+                var list = el.className.trim().split(" ");
+                var found = list.indexOf(c);
+                if(found!=-1){
+                    list.splice(found,1);
+                    el.className = list.join(" ");
+                }
+            });
+            return this;
         }
     };
     var utils = {
@@ -123,6 +142,12 @@
         },
         isArray:function(o){
             return Array.isArray(o);
+        },
+        addArrayItem:function(arr,item){
+            if(arr.indexOf(item)==-1){
+                arr.push(item)
+            }
+            return arr;
         }
     };
     var addFn = function(el){
