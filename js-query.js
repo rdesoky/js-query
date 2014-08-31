@@ -35,7 +35,7 @@
             }
             this.forEach(function(el){
                 el.innerHTML = shtml;
-            })
+            });
             return this;
         },
         text:function(txt){
@@ -61,7 +61,7 @@
                         $(window).ready(cb);
                     }
                 }else{
-                    $(el).listen("load");
+                    $(el).listen("load",cb);
                 }
             });
             return this;
