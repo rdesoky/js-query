@@ -103,14 +103,22 @@
             return this;
         },
         attr:function(n,val){
+            var ret = (val===undefined) ? [] : this;
             this.forEach(function(el){
-                if(val==="" || val===null || val===undefined){
+                if(val==="" || val===null){
                     el.removeAttribute(n);
-                }else {
+                }
+                else if(val===undefined){
+                    ret.push(el.getAttribute(n));
+                }
+                else {
                     el.setAttribute(n, val);
                 }
             });
-            return this;
+            if( utils.isArray(ret) && ret.length == 1 ){
+                return ret[0];
+            }
+            return ret;
         },
         removeAttr:function(n){
             return this.attr(n);
