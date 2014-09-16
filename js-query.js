@@ -121,7 +121,7 @@
             return ret;
         },
         removeAttr:function(n){
-            return this.attr(n);
+            return this.attr(n, null);
         },
         addClass:function(c){
             this.forEach(function(el){
