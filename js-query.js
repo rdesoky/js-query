@@ -73,6 +73,12 @@
             return this;
         },
         click:function(cb){
+            if(cb===undefined){
+                this.forEach(function(el){
+                    el.click();
+                });
+                return this;
+            }
             return this.listen("click", cb);
         },
         show:function(){
