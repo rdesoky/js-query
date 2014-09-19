@@ -42,7 +42,7 @@
             if(txt===undefined){
                 var ret = "";
                 this.forEach(function(el){
-                    ret += el.innerText;
+                    ret += (el.innerText || el.innerHTML);
                 });
                 return ret;
             }
