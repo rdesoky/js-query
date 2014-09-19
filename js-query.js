@@ -42,7 +42,7 @@
             if(txt===undefined){
                 var ret = "";
                 this.forEach(function(el){
-                    ret += (el.innerText || el.innerHTML);
+                    ret += (el.tagName.toLowerCase() == "input") ? el.value : (el.innerText || el.innerHTML);
                 });
                 return ret;
             }
