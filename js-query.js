@@ -47,7 +47,13 @@
                 return ret;
             }
             this.forEach(function(el){
-                el.innerHTML = txt;
+                switch(el.tagName.toLowerCase()){
+                    case "input":
+                        el.value = strVal;
+                        break;
+                    default:
+                        el.innerHTML = strVal;
+                }
             });
             return this;
         },
