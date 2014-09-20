@@ -49,10 +49,10 @@
             this.forEach(function(el){
                 switch(el.tagName.toLowerCase()){
                     case "input":
-                        el.value = strVal;
+                        el.value = txt;
                         break;
                     default:
-                        el.innerHTML = strVal;
+                        el.innerHTML = txt;
                 }
             });
             return this;
