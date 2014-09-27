@@ -105,6 +105,15 @@
             });
             return this;
         },
+		append:function(e){//TODO: need review
+			if(e.dom === fn.dom){
+				e = e.dom();
+			}
+			this.forEach(function(el){
+				el.appendChild(e);
+			});
+			return this;
+		},
         prepend:function(e){
             if(e.dom === fn.dom){
                 e = e.dom();
@@ -115,22 +124,22 @@
             return this;
         },
         attr:function(n,val){
-            var ret = (val===undefined) ? [] : this;
+            var ret = (val===undefined) ? [] : null;
             this.forEach(function(el){
                 if(val==="" || val===null){
                     el.removeAttribute(n);
                 }
-                else if(val===undefined){
+                else if(ret){
                     ret.push(el.getAttribute(n));
                 }
                 else {
                     el.setAttribute(n, val);
                 }
             });
-            if( utils.isArray(ret) && ret.length == 1 ){
+            if( ret && ret.length == 1 ){
                 return ret[0];
             }
-            return ret;
+            return ret || this;
         },
         removeAttr:function(n){
             return this.attr(n, null);
