@@ -165,7 +165,15 @@
                 }
             });
             return this;
-        }
+        },
+		remove:function(){
+			this.forEach(function(el){
+				if(el.parentNode){
+					el.parentNode.removeChild(el);
+				}
+			});
+			return this;
+		}
     };
     var utils = {
         isString:function(o){
