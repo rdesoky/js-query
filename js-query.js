@@ -45,7 +45,9 @@
                     ret += (el.tagName.toLowerCase() == "input") ? el.value : (el.innerText || el.innerHTML);
                 });
                 return ret;
-            }
+            }else if(typeof txt !== "string"){
+				txt = JSON.stringify(txt);
+			}
             this.forEach(function(el){
                 switch(el.tagName.toLowerCase()){
                     case "input":
