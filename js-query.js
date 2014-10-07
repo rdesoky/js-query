@@ -153,16 +153,22 @@
             return this;
         },
         removeClass:function(c){
+            if(typeof c !== "string"){
+                return this;
+            }
+            var delist = c.trim().split(" ");
             this.forEach(function(el){
                 if(!el.className.trim().length){
                     return;
                 }
                 var list = el.className.trim().split(" ");
-                var found = list.indexOf(c);
-                if(found!=-1){
-                    list.splice(found,1);
-                    el.className = list.join(" ");
-                }
+                delist.forEach(function(dc){
+                    var found = list.indexOf(dc);
+                    if(found!=-1){
+                        list.splice(found,1);
+                        el.className = list.join(" ");
+                    }
+                });
             });
             return this;
         },
