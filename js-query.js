@@ -22,6 +22,18 @@
     };
 
     var fn = {
+        hasClass:function(className){
+            var not_found = false, classList=className.trim().split(" ");
+            this.forEach(function(el){
+                var elClasses =el.className.trim().split(" ");
+                classList.forEach(function(cls){
+                    if( elClasses.indexOf(cls) == -1 ){
+                        not_found = true;
+                    }
+                });
+            });
+            return !not_found;
+        },
         dom:function(){
             return this[0];
         },
