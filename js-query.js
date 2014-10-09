@@ -34,6 +34,14 @@
             });
             return !not_found;
         },
+        toggleClass:function(c){
+            if(this.hasClass(c)){
+                this.removeClass(c);
+            }else{
+                this.addClass(c);
+            }
+            return this;
+        },
         dom:function(){
             return this[0];
         },
