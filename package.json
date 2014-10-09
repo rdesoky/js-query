@@ -1,6 +1,6 @@
 {
   "name": "js-query",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "Slim version of jQuery",
   "main": "js-query.js",
   "scripts": {
